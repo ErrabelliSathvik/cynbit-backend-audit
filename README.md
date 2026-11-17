@@ -108,7 +108,7 @@ python -m pytest -v
 
 
 
-\*\*Latest validation:\*\* 7 tests passed, with 1 dependency deprecation warning.
+\\Latest validation:\\ 7 tests passed, with 1 dependency deprecation warning.
 
 
 
