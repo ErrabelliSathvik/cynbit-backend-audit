@@ -2,9 +2,11 @@
 from fastapi import FastAPI
 from datetime import datetime, timezone
 
+from app.routers.users import router as users_router
+
 app = FastAPI(
     title="Cynbit Backend Audit Prototype",
-    description="A demonstration backend implementing secure API design principles.",
+    description="Backend engineering improvement demonstration",
     version="1.0.0"
 )
 
@@ -25,10 +27,4 @@ async def health_check():
     }
 
 
-@app.get("/api/v1/about")
-async def about():
-    return {
-        "project": "Cynbit Backend Technical Audit",
-        "framework": "FastAPI",
-        "purpose": "Demonstrating backend engineering improvements"
-    }
+app.include_router(users_router)
