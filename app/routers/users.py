@@ -1,5 +1,6 @@
 
 from fastapi import APIRouter, HTTPException, status
+
 from app.schemas.user import UserCreate
 
 router = APIRouter(
@@ -7,33 +8,28 @@ router = APIRouter(
     tags=["Users"]
 )
 
-# Temporary in-memory storage for demonstration
 users = []
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_user(user: UserCreate):
+    email = str(user.email).lower()
 
     for existing_user in users:
-        if existing_user["email"] == user.email:
+        if existing_user["email"] == email:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
                 detail="Email already registered"
             )
 
     new_user = user.model_dump()
-
+    new_user["email"] = email
     users.append(new_user)
 
     return {
         "message": "User created successfully",
-        "user": new_user
-    }
-
-
-@router.get("/")
-async def get_users():
-    return {
-        "total": len(users),
-        "users": users
+        "user": {
+            "name": new_user["name"],
+            "email": new_user["email"]
+        }
     }
